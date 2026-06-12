@@ -1,50 +1,80 @@
 const API_URL = 'https://inventario-backend-9yx1.onrender.com/productos';
 
 async function obtenerProductos() {
-  try {
-    const res = await fetch(API_URL);
-    const datos = await res.json();
+  const res = await fetch(API_URL);
+  const datos = await res.json();
 
-    const tabla = document.getElementById('tabla');
-    tabla.innerHTML = '';
+  const tabla = document.getElementById('tabla');
+  tabla.innerHTML = '';
 
-    datos.forEach(prod => {
-      tabla.innerHTML += `
-        <tr>
-          <td>${prod.nombre}</td>
-          <td>$${prod.precio}</td>
-          <td>${prod.existencia} pzas</td>
-        </tr>
-      `;
-    });
-  } catch (error) {
-    console.error('Error al obtener productos:', error);
-    alert('No se pudieron cargar los productos.');
-  }
+  datos.forEach(prod => {
+    tabla.innerHTML += `
+      <tr>
+        <td>${prod.nombre}</td>
+        <td>$${prod.precio}</td>
+        <td>${prod.existencia} pzas</td>
+        <td>
+          <button class="btn-editar" onclick="editarProducto('${prod._id}', '${prod.nombre}', ${prod.precio}, ${prod.existencia})">Editar</button>
+          <button class="btn-eliminar" onclick="eliminarProducto('${prod._id}')">Eliminar</button>
+        </td>
+      </tr>
+    `;
+  });
 }
 
 document.getElementById('formProducto').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const nuevoObj = {
+  const id = document.getElementById('productoId').value;
+
+  const producto = {
     nombre: document.getElementById('nombre').value,
     precio: Number(document.getElementById('precio').value),
     existencia: Number(document.getElementById('existencia').value)
   };
 
-  try {
+  if (id) {
+    await fetch(`${API_URL}/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(producto)
+    });
+  } else {
     await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(nuevoObj)
+      body: JSON.stringify(producto)
+    });
+  }
+
+  e.target.reset();
+  document.getElementById('productoId').value = '';
+  document.getElementById('tituloFormulario').textContent = 'Registrar Producto';
+  document.getElementById('btnGuardar').textContent = 'Enviar a la Nube';
+
+  obtenerProductos();
+});
+
+function editarProducto(id, nombre, precio, existencia) {
+  document.getElementById('productoId').value = id;
+  document.getElementById('nombre').value = nombre;
+  document.getElementById('precio').value = precio;
+  document.getElementById('existencia').value = existencia;
+
+  document.getElementById('tituloFormulario').textContent = 'Editar Producto';
+  document.getElementById('btnGuardar').textContent = 'Actualizar Producto';
+}
+
+async function eliminarProducto(id) {
+  const confirmar = confirm('¿Seguro que deseas eliminar este producto?');
+
+  if (confirmar) {
+    await fetch(`${API_URL}/${id}`, {
+      method: 'DELETE'
     });
 
-    e.target.reset();
     obtenerProductos();
-  } catch (error) {
-    console.error('Error al guardar producto:', error);
-    alert('No se pudo guardar el producto.');
   }
-});
+}
 
 obtenerProductos();
