@@ -1,144 +1,147 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario NoSQL</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventario NoSQL</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            padding: 20px;
-        }
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    padding:20px;
+}
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-        }
+.container{
+    max-width:700px;
+    margin:auto;
+}
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,.1);
-        }
+.card{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin-bottom:20px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
 
-        h2, h3 {
-            margin-top: 0;
-        }
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    box-sizing:border-box;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
+button{
+    padding:10px;
+    border:none;
+    cursor:pointer;
+    color:white;
+    font-weight:bold;
+}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #0066cc;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-        }
+#btnGuardar{
+    width:100%;
+    background:#0066cc;
+}
 
-        button:hover {
-            background: #004d99;
-        }
+#btnGuardar:hover{
+    background:#004d99;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-        }
+.btn-editar{
+    background:#f39c12;
+    margin-right:5px;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+.btn-eliminar{
+    background:#e74c3c;
+}
 
-        th {
-            background: #0066cc;
-            color: white;
-        }
-    </style>
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+th{
+    background:#0066cc;
+    color:white;
+}
+</style>
 
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h2>Panel de Inventario</h2>
+<h2>Panel de Inventario</h2>
 
-        <div class="card">
+<div class="card">
 
-            <h3>Registrar Producto</h3>
+<h3 id="tituloFormulario">Registrar Producto</h3>
 
-            <form id="formProducto">
+<form id="formProducto">
 
-                <input
-                    type="text"
-                    id="nombre"
-                    placeholder="Nombre del artículo"
-                    required
-                >
+<input type="hidden" id="productoId">
 
-                <input
-                    type="number"
-                    id="precio"
-                    placeholder="Precio"
-                    required
-                >
+<input
+type="text"
+id="nombre"
+placeholder="Nombre del artículo"
+required
+>
 
-                <input
-                    type="number"
-                    id="existencia"
-                    placeholder="Cantidad"
-                    required
-                >
+<input
+type="number"
+id="precio"
+placeholder="Precio"
+required
+>
 
-                <button type="submit">
-                    Enviar a la Nube
-                </button>
+<input
+type="number"
+id="existencia"
+placeholder="Cantidad"
+required
+>
 
-            </form>
+<button type="submit" id="btnGuardar">
+Enviar a la Nube
+</button>
 
-        </div>
+</form>
 
-        <div class="card">
+</div>
 
-            <h3>Existencias en Base de Datos</h3>
+<div class="card">
 
-            <table>
+<h3>Existencias en Base de Datos</h3>
+
 <table>
 
-    <thead>
-        <tr>
-            <th>Artículo</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+<thead>
+<tr>
+<th>Artículo</th>
+<th>Precio</th>
+<th>Stock</th>
+<th>Acciones</th>
+</tr>
+</thead>
 
-    <tbody id="tabla"></tbody>
+<tbody id="tabla"></tbody>
 
 </table>
 
-                <tbody id="tabla"></tbody>
+</div>
 
-            </table>
+</div>
 
-        </div>
-
-    </div>
-
-    <script src="app.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
